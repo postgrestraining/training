@@ -1,14 +1,17 @@
 
-CREATE OR REPLACE PROCEDURE raise_valing() AS $$
+CREATE OR REPLACE PROCEDURE get_database_size(IN p_database_name VARCHAR)
+LANGUAGE plpgsql
+AS $$
 DECLARE
-val int := 10;
+  v_database_size VARCHAR;
 BEGIN
-RAISE NOTICE 'Current value is : % ', val;
-END;
-$$
-LANGUAGE plpgsql;
+  SELECT pg_size_pretty(pg_database_size(p_database_name)) INTO v_database_size;
 
-call raise_valing();
+  RAISE NOTICE 'Database Size for %: %', p_database_name, v_database_size;
+END;
+$$;
+
+call get_database_size('postgres');
 
 -- Create a sample table
 CREATE TABLE sample_table (
@@ -29,7 +32,6 @@ AS $$
   COMMIT;
 END;
 $$;
-
 
 call update_record(1, 350);
 
