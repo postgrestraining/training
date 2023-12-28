@@ -43,3 +43,24 @@ SELECT pg_get_functiondef(f.oid)
 FROM pg_catalog.pg_proc f
 INNER JOIN pg_catalog.pg_namespace n ON (f.pronamespace = n.oid)
 WHERE n.nspname = 'bookings';
+
+
+--
+create database a;
+\c a
+create schema bookings;
+
+pg_dump -U postgres -d demo -Fc -f dump.bkp --schema-only
+pg_restore --list dump.bkp | grep PROCEDURE > procedure_list
+pg_restore -U postgres -d a -L procedure_list dump.bkp
+
+psql -d a -U postgres
+\df bookings.*
+
+
+
+
+
+
+
+
