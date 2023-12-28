@@ -37,3 +37,9 @@ call update_record(1, 350);
 
 select * from sample_table;
 
+\o abc.txt
+
+SELECT pg_get_functiondef(f.oid)
+FROM pg_catalog.pg_proc f
+INNER JOIN pg_catalog.pg_namespace n ON (f.pronamespace = n.oid)
+WHERE n.nspname = 'bookings';
