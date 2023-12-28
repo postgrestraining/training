@@ -1,0 +1,41 @@
+
+CREATE OR REPLACE PROCEDURE raise_valing() AS $$
+DECLARE
+val int := 10;
+BEGIN
+RAISE NOTICE 'Current value is : % ', val;
+END;
+$$
+LANGUAGE plpgsql;
+
+call raise_valing();
+
+-- Create a sample table
+CREATE TABLE sample_table (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    sal INT
+);
+
+-- Insert some sample data
+INSERT INTO sample_table (name, sal) VALUES ('John', 250), ('Jane', 300);
+
+-- Create a procedure to update a record by ID
+CREATE OR REPLACE PROCEDURE update_record(IN p_id INT, IN p_sal INT)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE sample_table
+    SET sal = p_sal
+    WHERE id = p_id;
+    
+    -- You can include additional logic if needed
+    
+    COMMIT;
+END;
+$$;
+
+call update_record(1, 350);
+
+select * from sample_table;
+
