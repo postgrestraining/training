@@ -21,19 +21,15 @@ CREATE TABLE sample_table (
 INSERT INTO sample_table (name, sal) VALUES ('John', 250), ('Jane', 300);
 
 -- Create a procedure to update a record by ID
-CREATE OR REPLACE PROCEDURE update_record(IN p_id INT, IN p_sal INT)
+CREATE OR REPLACE PROCEDURE update_sample_table(IN p_id INT, IN p_sal INT)
 LANGUAGE plpgsql
 AS $$
-BEGIN
-    UPDATE sample_table
-    SET sal = p_sal
-    WHERE id = p_id;
-    
-    -- You can include additional logic if needed
-    
-    COMMIT;
+  BEGIN
+    UPDATE sample_table SET sal = p_sal WHERE id = p_id;
+  COMMIT;
 END;
 $$;
+
 
 call update_record(1, 350);
 
