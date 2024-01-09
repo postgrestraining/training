@@ -164,4 +164,37 @@ BEGIN
 END;
 /
 
+++++
+
+CREATE TABLE random_data_table (
+    id          INTEGER PRIMARY KEY,
+    col1        VARCHAR2(50),  -- VARCHAR in PostgreSQL
+    col2        NUMBER,        -- NUMERIC in PostgreSQL
+    col3        DATE,          -- DATE in PostgreSQL
+    col4        CLOB           -- TEXT in PostgreSQL
+);
+
+INSERT INTO random_data_table VALUES (
+    1, 'Some text', 42, NULL, 'This is a CLOB value'
+);
+INSERT INTO random_data_table VALUES (
+    2, NULL, NULL, NULL, NULL
+);
+INSERT INTO random_data_table VALUES (
+    3, NULL, 17, NULL, 'Another CLOB value'
+);
+
+CREATE OR REPLACE PROCEDURE process_data
+AS
+BEGIN
+    FOR rec IN (SELECT * FROM random_data_table) LOOP
+        DBMS_OUTPUT.PUT_LINE(SUBSTR(rec.col1, 1, 5));  -- Will raise issue in PostgreSQL
+    END LOOP;
+END;
+/
+
+BEGIN
+  process_data;
+END;
+/
 
