@@ -1,0 +1,44 @@
+
+SQL> ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
+
+Database altered.
+
+SQL> shutdown immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> startup mount;
+ORACLE instance started.
+
+Total System Global Area 1526722880 bytes
+Fixed Size                  8896832 bytes
+Variable Size             939524096 bytes
+Database Buffers          570425344 bytes
+Redo Buffers                7876608 bytes
+Database mounted.
+SQL> alter database archivelog;
+
+Database altered.
+
+SQL> alter database open;
+
+Database altered.
+
+ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
+SELECT supplemental_log_data_min FROM v$database;
+
+mkdir -p /softwares/dbs/arch
+alter system switch logfile;
+
+select 'ALTER TABLE '||table_name||' ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;' from all_tables where owner = 'HR';
+
+ALTER DATABASE ADD SUPPLEMENTAL LOG DATA (PRIMARY KEY) COLUMNS;
+
+ALTER TABLE REGIONS ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE COUNTRIES ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE LOCATIONS ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE DEPARTMENTS ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE JOBS ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE EMPLOYEES ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE JOB_HISTORY ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+
