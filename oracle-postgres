@@ -73,4 +73,28 @@ SELECT dbms_lob.getlength(clob_data) AS length, dbms_lob.substr(clob_data, 4000,
 FROM clob_data_table;
 
 
+SQL>
+SQL> create or replace directory blob_dir as '/home/oracle';
+
+Directory created.
+
+SQL> grant read, write on directory blob_dir to hr;
+
+Grant succeeded.
+
+create table blob_data_table (
+  id        number,
+  blob_data blob
+);
+
+insert into blob_data_table (id, blob_data)
+values (1, to_blob(bfilename('BLOB_DIR', 'hr_main.log')));
+
+update blob_data_table
+set    blob_data = bfilename('BLOB_DIR', 'hr_main.log')
+where  id = 1;
+
+
+
+
 
