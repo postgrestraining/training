@@ -126,5 +126,42 @@ END;
 /
 
 +++++
+-- Creating the procedure with an explicit cursor
+CREATE OR REPLACE PROCEDURE get_employee_data_explicit_cursor IS
+    -- Declare variables to hold employee data
+    v_employee_id   employees.employee_id%TYPE;
+    v_first_name    employees.first_name%TYPE;
+    v_last_name     employees.last_name%TYPE;
+    v_email         employees.email%TYPE;
+
+    -- Declare the explicit cursor
+    CURSOR employee_cursor IS
+        SELECT employee_id, first_name, last_name, email
+        FROM employees where EMPLOYEE_ID=100;
+BEGIN
+    -- Open the explicit cursor
+    OPEN employee_cursor;
+
+    -- Fetch data from the cursor
+    LOOP
+        FETCH employee_cursor INTO v_employee_id, v_first_name, v_last_name, v_email;
+
+        -- Exit the loop if no more rows to fetch
+        EXIT WHEN employee_cursor%NOTFOUND;
+
+        -- Process or display the fetched data (you can modify this part based on your requirements)
+        DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_employee_id || ', Name: ' || v_first_name || ' ' || v_last_name || ', Email: ' || v_email);
+    END LOOP;
+
+    -- Close the explicit cursor
+    CLOSE employee_cursor;
+END;
+/
+
+
+BEGIN
+  get_employee_data_explicit_cursor;
+END;
+/
 
 
