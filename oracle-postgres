@@ -198,3 +198,26 @@ BEGIN
 END;
 /
 
+create table test(idx int, txt clob);
+
+create or replace procedure p_test(P_IDX in number,P_TXT in varchar2,P_FLAG in number) as
+g_clob clob;
+begin
+if P_FLAG=0 then
+insert into test values (P_IDX, empty_clob() ) returning txt into g_clob;
+dbms_lob.write( g_clob,length(P_TXT), 1,P_TXT);
+else
+select txt into g_clob from test where IDX=P_IDX for update;
+dbms_lob.writeappend( g_clob, length(P_TXT), P_TXT);
+end if;
+end;
+
+
+drop table test;
+
+Solutions
+==========
+
+ALTER TABLE BLOB_DATA_TABLE ADD CONSTRAINT id_key PRIMARY KEY (id);
+
+
