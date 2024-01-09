@@ -95,6 +95,36 @@ set    blob_data = bfilename('BLOB_DIR', 'hr_main.log')
 where  id = 1;
 
 
+++++
 
+-- Creating the procedure
+CREATE OR REPLACE PROCEDURE get_employee_data IS
+    -- Declare variables to hold employee data
+    v_employee_id   employees.employee_id%TYPE;
+    v_first_name    employees.first_name%TYPE;
+    v_last_name     employees.last_name%TYPE;
+    v_email         employees.email%TYPE;
+BEGIN
+    -- Open the cursor
+    FOR emp_rec IN (SELECT * FROM employees where EMPLOYEE_ID=100) LOOP
+        -- Fetch data from the cursor
+        v_employee_id := emp_rec.employee_id;
+        v_first_name := emp_rec.first_name;
+        v_last_name := emp_rec.last_name;
+        v_email := emp_rec.email;
+        -- Process or display the fetched data (you can modify this part based on your requirements)
+        DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_employee_id || ', Name: ' || v_first_name || ' ' || v_last_name || ', Email: ' || v_email);
+    END LOOP;
+
+    -- Close the cursor (implicitly done when the loop finishes)
+END;
+/
+
+BEGIN
+  get_employee_data;
+END;
+/
+
++++++
 
 
