@@ -42,3 +42,35 @@ ALTER TABLE JOBS ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 ALTER TABLE EMPLOYEES ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 ALTER TABLE JOB_HISTORY ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 
+
+CLOB DATA
+----------
+
+CREATE TABLE clob_data_table (
+    id       INTEGER PRIMARY KEY,
+    clob_data CLOB
+);
+
+DECLARE
+    large_text CLOB;
+    i          INTEGER := 1;
+BEGIN
+    DBMS_LOB.createtemporary(large_text, TRUE);
+
+    WHILE i <= 5000 LOOP
+        DBMS_LOB.writeappend(large_text, LENGTH('Sentence ' || i || ' of the long text ' || i || '. '), 'Sentence ' || i || ' of the long text ' || i || '. ');
+        i := i + 1;
+    END LOOP;
+	INSERT INTO clob_data_table (id, clob_data) VALUES (1, TO_CLOB(large_text));
+
+ -- Commit the transaction
+    COMMIT;
+END;
+/
+
+
+SELECT dbms_lob.getlength(clob_data) AS length, dbms_lob.substr(clob_data, 4000, 1) AS first_4000_chars
+FROM clob_data_table;
+
+
+
