@@ -219,5 +219,6 @@ Solutions
 ==========
 
 ALTER TABLE BLOB_DATA_TABLE ADD CONSTRAINT id_key PRIMARY KEY (id);
+create table test(idx int, txt clob);
 
 
